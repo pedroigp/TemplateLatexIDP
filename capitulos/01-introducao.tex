@@ -36,20 +36,44 @@ denso-esparso e GraphRAG incremental) e estratégias de geração de resposta
 \subsection{Objetivos específicos}
 
 \begin{itemize}
-  \item Objetivo específico 1;
-  \item Objetivo específico 2;
-  \item Objetivo específico 3.
+  \item Construir e curar o corpus jurídico-administrativo e desenvolver um harness de avaliação com golden dataset de perguntas e respostas de referência;
+  \item Avaliar se o GraphRAG incremental supera RAG denso e RAG denso-esparso na recuperação de evidências e na qualidade das respostas geradas (H1);
+  \item Avaliar se a geração verificada multiagente melhora a fidelidade e a rastreabilidade das respostas em relação à geração single-pass (H2).
 \end{itemize}
 
 \subsection{Problema}
 
-Formule a questão problema em forma de pergunta, de modo claro e delimitado.
+Diante da limitação da busca vetorial pura para conectar informação
+distribuída entre documentos jurídico-administrativos e da incompatibilidade
+das implementações consolidadas de GraphRAG com um acervo que cresce
+continuamente, qual estratégia de recuperação --- RAG denso, RAG
+denso-esparso ou GraphRAG incremental --- e qual estratégia de geração ---
+single-pass ou verificada multiagente --- produz respostas mais precisas,
+fundamentadas e rastreáveis sobre um corpus jurídico-administrativo
+brasileiro?
 
 \subsection{Hipótese}
 
-Apresente a resposta provisória que a pesquisa pretende confirmar ou refutar.
+\textbf{H1}: a condição GraphRAG Incremental (pgvector + Apache AGE) supera
+as condições RAG Denso e RAG Denso-Esparso em Context Precision, Context
+Recall, Faithfulness e Answer Relevancy, avaliada sobre um golden dataset com
+perguntas single-hop e multi-hop, mantendo idêntico o pipeline de ingestão e
+embedding entre as três condições.
+
+\textbf{H2}: a geração verificada multiagente (padrão
+Researcher-Auditor-Adjudicator), aplicada sobre a estratégia de recuperação
+vencedora de H1, melhora a Faithfulness e a taxa de verificação de citação em
+relação à geração single-pass sobre a mesma evidência recuperada.
 
 \subsection{Justificativa}
 
-Explique a relevância acadêmica e social do tema e o que motivou a escolha do
-recorte adotado.
+Do ponto de vista arquitetural, nenhum trabalho revisado combina storage
+único relacional, atualização incremental por documento e ausência de
+sumarização de comunidades: o GraphRAG canônico \parencite{edge2024}
+reconstrói o grafo em lote, e as alternativas que atualizam incrementalmente
+o fazem sem storage unificado. Do ponto de vista empírico, os benchmarks de
+recuperação jurídica em português revisados reúnem jurisprudência e normas em
+coleções separadas e avaliam apenas a recuperação, não a resposta gerada. Um
+acervo que combine legislação federal e atos normativos de órgãos de mais de
+um poder, avaliado de ponta a ponta, da recuperação à geração, carece de
+referência dedicada.
