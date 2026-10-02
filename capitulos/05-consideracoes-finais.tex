@@ -4,15 +4,23 @@
 
 \section{Considerações finais}
 
-Faça uma reflexão sobre a questão problema. Verifique se sua hipótese e seus
-objetivos geral e específicos foram alcançados. Apresente suas sugestões e
-cuidados, caso outras pessoas queiram implantar as ações em suas atividades
-profissionais.
+Este trabalho perguntou qual estratégia de recuperação --- RAG denso, RAG
+denso-esparso ou GraphRAG incremental --- e qual estratégia de geração ---
+single-pass ou verificada multiagente --- produz respostas mais precisas,
+fundamentadas e rastreáveis sobre um corpus jurídico-administrativo
+brasileiro. A resposta obtida diverge, em parte, da hipótese que orientou o
+desenho do estudo: o GraphRAG incremental não supera o RAG denso-esparso com
+significância estatística em nenhuma das quatro métricas avaliadas, apesar
+de superar o RAG denso puro nas quatro; a geração verificada multiagente não
+melhora a fidelidade nem a taxa de verificação de citação em relação à
+geração single-pass, em nenhuma das duas bases de retrieval testadas.
 
-As considerações finais não devem introduzir dados ou argumentos novos: elas
-retomam o percurso da pesquisa, respondem à pergunta formulada na introdução,
-reconhecem as limitações do estudo e apontam possibilidades de investigações
-futuras.
+O objetivo geral --- comparar empiricamente estratégias de recuperação e de
+geração sobre esse corpus --- foi perseguido nesta fase do projeto através
+do desenho descrito no Capítulo 3. Dos objetivos específicos, construir o
+corpus e o harness de avaliação é uma frente já em andamento; avaliar H1 e
+H2 depende da execução completa do harness sobre o golden dataset, ainda em
+curadoria nesta etapa do mestrado.
 
 A formatação deste trabalho segue as normas da ABNT para apresentação de
 trabalhos acadêmicos \parencite{abnt14724}, para elaboração de referências

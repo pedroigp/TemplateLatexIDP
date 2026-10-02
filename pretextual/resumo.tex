@@ -12,16 +12,32 @@
 %% periodo; principais resultados alcancados; conclusoes.
 
 \begin{resumo}
-Este espaço é reservado para apresentar o resumo do seu trabalho na língua
-vernácula. Ele deve conter entre 150 e 500 palavras, em Times New Roman
-tamanho 12, com espaçamento simples e alinhamento justificado. Um bom resumo
-deve informar o objetivo geral do trabalho, os principais conceitos e autores
-trabalhados na fundamentação teórica, as principais etapas e ações na execução
-da proposta, a população envolvida e o período no qual os dados foram obtidos.
-Apresente também os principais resultados alcançados e as conclusões a que se
-chegou. O resumo deve ser redigido em um único parágrafo, sem recuo de primeira
-linha, empregando o verbo na voz ativa e na terceira pessoa do singular. Evite
-símbolos, fórmulas, equações e diagramas que não sejam absolutamente
-necessários, bem como citações bibliográficas. Em caso de dúvidas, consulte a
-norma NBR 6028.
+Sistemas de \textit{Retrieval-Augmented Generation} (RAG) dependem da
+qualidade da recuperação, e em corpus jurídico-administrativo brasileiro a
+busca vetorial pura falha na recuperação de termos exatos e em perguntas que
+conectam documentos distintos. Este trabalho compara empiricamente estratégias
+de recuperação --- RAG denso, RAG denso-esparso e GraphRAG incremental,
+implementado sobre PostgreSQL com pgvector e Apache AGE em armazenamento
+único --- e estratégias de geração --- single-pass e verificada multiagente,
+no padrão Researcher-Auditor-Adjudicator --- sobre um corpus de documentos
+normativos brasileiros --- leis federais, resoluções do Conselho Nacional de
+Justiça e instruções normativas do Tribunal de Contas da União. A avaliação
+usa um golden dataset de perguntas intra e inter-documentos, as métricas
+RAGAS (Faithfulness, Context Precision, Context Recall e Answer Relevancy) e
+o teste de Wilcoxon signed-rank pareado com correção de Bonferroni. Na fase
+confirmatória, o GraphRAG incremental supera o RAG denso, mas não o RAG
+denso-esparso, e a geração multiagente não melhora a Faithfulness nem a taxa
+de verificação de citação em relação à single-pass: as hipóteses H1 e H2 não
+se confirmam. Uma fase exploratória ampliou a comparação para catorze
+condições de recuperação e mostrou que remover o reranking do RAG
+denso-esparso eleva a Context Precision sem perda nas demais métricas, e que
+a busca esparsa pura (BM25) alcança a maior Context Precision entre as
+condições formais. A configuração mais precisa encontrada combina RAG
+denso-esparso sem reranking com geração single-pass, mais simples e barata
+que a prevista nas hipóteses. O GraphRAG puro, que entrega ao gerador apenas
+descrições sintéticas de entidades, ficou abaixo das demais condições, e a
+explicação mais sustentada pelos dados é o descasamento entre esse formato e
+a métrica de Faithfulness. Entre as limitações do estudo estão o uso de um
+único juiz de LLM e uma métrica de recuperação baseada em identificador de
+trecho, e não em sobreposição de caracteres.
 \end{resumo}

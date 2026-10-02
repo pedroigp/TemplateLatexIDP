@@ -10,20 +10,28 @@
 
 \section{Introdução}
 
-Na primeira página da parte textual do trabalho de conclusão de curso, faça a
-apresentação de sua pesquisa. A introdução deverá ocupar uma ou, no máximo, duas
-páginas do seu trabalho. Nela, dê um panorama da temática, exponha a questão
-problema que conduzirá a pesquisa proposta, a hipótese e a justificativa.
-
-Os capítulos (seções) e subcapítulos (subseções) são sequenciais. O título de
-cada seção primária (\textbf{1 INTRODUÇÃO}, \textbf{2 REFERENCIAL TEÓRICO} etc.)
-é grafado em letras maiúsculas e negritadas. Não utilize ponto após a numeração
-das seções. Deixe uma linha em branco entre as seções.
+Sistemas de Retrieval-Augmented Generation (RAG) respondem perguntas
+combinando um modelo de linguagem com uma busca sobre uma base documental, o
+que reduz alucinação e permite atualizar o conhecimento do sistema sem
+retreinar o modelo \parencite{lewis2020}. Essa vantagem depende da qualidade
+da recuperação. Em corpus jurídico-administrativo brasileiro --- leis
+federais, resoluções do Conselho Nacional de Justiça e instruções normativas
+do Tribunal de Contas da União ---, a busca vetorial pura
+erra na recuperação de termos exatos (siglas, números de processo, remissões
+normativas) e não resolve perguntas que exigem conectar informação
+distribuída entre documentos distintos, como saber se uma norma continua em
+vigor diante de um ato que a revoga. O GraphRAG ataca essa segunda limitação
+complementando a busca vetorial com um grafo de conhecimento entre documentos
+\parencite{edge2024}, mas as implementações consolidadas reconstroem o grafo
+inteiro em lote, premissa incompatível com um acervo que cresce
+continuamente.
 
 \subsection{Objetivo geral}
 
-Enuncie, em um único parágrafo e com um verbo no infinitivo, o que a pesquisa
-pretende alcançar.
+Comparar empiricamente, sobre um corpus jurídico-administrativo brasileiro em
+português, estratégias de recuperação de informação (RAG denso, RAG
+denso-esparso e GraphRAG incremental) e estratégias de geração de resposta
+(single-pass e verificada multiagente).
 
 \subsection{Objetivos específicos}
 

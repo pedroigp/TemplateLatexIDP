@@ -3,15 +3,32 @@
 %% config/dados.tex.
 
 \begin{abstract}
-This space is reserved to present the abstract of your work in a foreign
-language; English is the suggested choice. The abstract should contain between
-150 and 500 words, in Times New Roman size 12, single spaced and justified. A
-good abstract states the purpose of the overall work, the key concepts and
-theoretical authors relied upon, the main steps and actions taken to implement
-the proposal, the population involved, how the data were collected and the
-period in which they were obtained. It should also present the main results and
-the conclusions reached. The abstract must be written as a single paragraph,
-with no first-line indentation, using the active voice and the third person
-singular. Avoid symbols, formulas, equations and diagrams that are not strictly
-necessary, as well as bibliographic citations.
+Retrieval-Augmented Generation (RAG) systems depend on retrieval quality, and
+over Brazilian legal-administrative corpora, pure vector search fails at
+retrieving exact terms and at answering questions that connect distinct
+documents. This work empirically compares retrieval strategies --- dense RAG,
+dense-sparse RAG and incremental GraphRAG, implemented on PostgreSQL with
+pgvector and Apache AGE as a single store --- and generation strategies ---
+single-pass and multi-agent verified generation, following the
+Researcher-Auditor-Adjudicator pattern --- over a corpus of Brazilian
+normative documents: federal laws, resolutions of the National Council of
+Justice and normative instructions of the Federal Court of Accounts. The
+evaluation uses a golden dataset of intra- and cross-document questions, the
+RAGAS metrics (Faithfulness, Context Precision, Context Recall and Answer
+Relevancy) and the paired Wilcoxon signed-rank test with Bonferroni
+correction. In the confirmatory phase, incremental GraphRAG outperforms dense
+RAG but not dense-sparse RAG, and multi-agent generation improves neither
+Faithfulness nor the citation verification rate over single-pass generation:
+hypotheses H1 and H2 are not confirmed. An exploratory phase extended the
+comparison to fourteen retrieval conditions and showed that removing the
+reranking step from dense-sparse RAG raises Context Precision with no loss on
+the other metrics, and that pure sparse search (BM25) achieves the highest
+Context Precision among the formal conditions. The most precise configuration
+found combines dense-sparse RAG without reranking with single-pass
+generation, which is simpler and cheaper than the one the hypotheses
+predicted. Pure GraphRAG, which hands the generator only synthetic entity
+descriptions, performed below the other conditions, and the explanation best
+supported by the data is a mismatch between that format and the Faithfulness
+metric. Among the study's limitations are the use of a single LLM judge and a
+retrieval metric based on chunk identifiers rather than character overlap.
 \end{abstract}

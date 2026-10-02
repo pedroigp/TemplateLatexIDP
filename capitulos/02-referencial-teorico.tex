@@ -7,118 +7,85 @@
 
 \section{Referencial teórico}
 
-Texto introdutório de um parágrafo, conforme exigido pela ABNT. Essa parte do
-trabalho demanda o domínio das regras de citação (diretas e indiretas). É nessa
-parte do trabalho que problemas legais em relação à apropriação de ideias de
-outros autores ocorrem com maior frequência. Portanto, reveja as regras
-estabelecidas pela ABNT para citações diretas e indiretas e para a indicação de
-fontes de gráficos, figuras ou outro recurso ilustrativo utilizado.
+O método de condução desta revisão está descrito na Seção de procedimentos
+metodológicos. Este capítulo revisa a literatura que fundamenta cada decisão
+arquitetural do sistema avaliado neste trabalho, seguindo a ordem do próprio
+pipeline de processamento --- da origem do paradigma de RAG à avaliação dos
+resultados. As seções seguintes situam a recuperação híbrida na evolução do
+RAG, posicionam a arquitetura de GraphRAG incremental adotada frente às
+variantes já publicadas e fecham o capítulo com a metodologia de avaliação e
+o posicionamento deste trabalho frente a pesquisas comparáveis.
 
-É importante lembrar que o desenvolvimento do trabalho será guiado pelo
-orientador, a quem cabe julgar se a Seção 2 poderá iniciar-se por ``revisão de
-literatura'', ``referencial teórico'' ou já abordar o primeiro tema a ser
-discutido no trabalho. O número de subtópicos desse item dependerá dos conceitos
-envolvidos na sua questão problema.
+\subsection{RAG: origem e evolução do paradigma}
 
-%% --- Exemplo de figura com legenda ACIMA e fonte ABAIXO --------------------
+O paradigma de Retrieval-Augmented Generation (RAG) combina um modelo de
+linguagem com um mecanismo de recuperação sobre uma base documental externa
+ao modelo --- não aos parâmetros aprendidos durante o treinamento, mas a uma
+base consultada em tempo de inferência ---, condicionando a geração da
+resposta ao conteúdo recuperado em vez de depender só do conhecimento
+implícito nos parâmetros \parencite{lewis2020}. A formulação original acopla
+um retriever denso (embeddings) a um gerador treinado conjuntamente, aplicado
+a tarefas intensivas em conhecimento como perguntas e respostas em domínio
+aberto.
+
+%% --- Figura (minha, não a de exemplo do template) ---------------------------
 \begin{figure}[htb]
-  \caption{Título da Figura}
-  \label{fig:exemplo}
+  \caption{Esquema ilustrativo do pipeline de recuperação e geração avaliado}
+  \label{fig:pipeline-rag}
   \centering
   \includegraphics[width=0.6\textwidth]{figuras/exemplo-figura.png}
-  \fonte{Niemeyer (2008).}
+  \fonte{Elaboração própria (\the\year).}
 \end{figure}
 
-Caso a ilustração seja de sua autoria, escreva \textbf{Fonte:} Do autor
-(\the\year). Use o mesmo padrão para quadros e gráficos, alterando apenas o
-título. Se precisar de notas de rodapé\footnote{Texto de exemplo para nota de
-rodapé. A nota de rodapé apresenta informações ou comentários adicionais sobre o
-conteúdo, em fonte 10 e espaçamento simples.}, elas devem estar dispostas no pé
-da página.
+A Figura~\ref{fig:pipeline-rag} ilustra, de forma simplificada, o percurso que
+uma pergunta percorre no sistema avaliado: consulta, recuperação (densa,
+esparsa ou por grafo), geração da resposta a partir da evidência recuperada
+e, na condição verificada, uma etapa adicional de auditoria antes da resposta
+final. É apenas um esquema de trabalho desta fase do projeto; o diagrama
+definitivo será redesenhado quando a arquitetura estiver congelada.
 
-\subsection{Título representativo do primeiro conceito: subtítulo se houver}
+\textbf{Citação direta com mais de 3 linhas} --- recuo de 4~cm, fonte 10,
+espaçamento simples e sem aspas, no idioma original do texto fonte:
 
-Discussão específica sobre a articulação das informações com foco na delimitação
-proposta pelos cursistas (bibliografia e orientação a cargo dos orientadores
-acadêmicos).
-
-\subsubsection{Título representativo: subtítulo se houver}
-
-No decorrer do desenvolvimento de cada capítulo (seção) e subcapítulo (subseção)
-utilizam-se citações diretas e indiretas para esclarecimentos, sustentações ou
-ilustrações de determinado assunto. A citação direta é a transcrição textual, sem
-alteração, de parte da obra do autor consultado.
-
-\textbf{Exemplo: citação direta de até 3 linhas} --- vai entre aspas duplas, no
-corpo do parágrafo:
-
-De acordo com \citeonline[p.~35]{sa1971}, acontece ``por meio da mesma arte de
-conversação que abrange tão extensa e significativa parte da nossa existência
-cotidiana''.
-
-\textbf{Exemplo: citação direta com mais de 3 linhas} --- recuo de 4~cm, fonte
-10, espaçamento simples e sem aspas:
-
-Assim, de acordo com Nicholls:
+Assim, segundo Lewis et al., sintetizando a motivação original do RAG:
 
 \begin{citacao}
-A teleconferência permite ao indivíduo participar de um encontro nacional ou
-regional sem a necessidade de deixar seu local de origem. Tipos comuns de
-teleconferência incluem o uso da televisão, telefone e computador. Através de
-áudio-conferência, utilizando a companhia local de telefone, um sinal de áudio
-pode ser emitido em um salão de qualquer dimensão. \parencite[p.~181]{nicholls1993}
+Large pre-trained language models have been shown to store factual knowledge
+in their parameters, and achieve state-of-the-art results when fine-tuned on
+downstream NLP tasks. However, their ability to access and precisely
+manipulate knowledge is still limited, and hence on knowledge-intensive
+tasks, their performance lags behind task-specific architectures.
+\parencite{lewis2020}
 \end{citacao}
 
-\textbf{Exemplo: citação indireta} --- é o texto baseado na obra do autor
-consultado; você transcreve aquilo que entendeu do texto lido:
+\textbf{Citação indireta} --- texto baseado na obra consultada, com a ideia
+transcrita em palavras próprias:
 
-Para \citeonline{authier1982}, a ironia seria assim uma forma implícita de
-heterogeneidade. Para mais informações sobre citação, consulte a norma
-NBR 10520 \parencite{abnt10520}.
+Para \citeonline{edge2024}, a limitação central do RAG convencional não está
+na recuperação de um fato isolado, e sim em perguntas ``globais'', que pedem
+uma síntese sobre toda a coleção de documentos; a solução proposta constrói
+um grafo de conhecimento a partir dos documentos-fonte e pré-gera resumos de
+comunidades de entidades relacionadas, combinando-os em tempo de consulta
+para responder a esse tipo de pergunta --- com ganhos relatados de
+abrangência e diversidade da resposta frente a um RAG convencional.
 
-%% --- Exemplo de quadro -----------------------------------------------------
-\begin{quadro}[htb]
-  \caption{Título do quadro}
-  \label{qua:exemplo}
-  \centering
-  \begin{tabular}{ll}
-    \toprule
-    \textbf{Elemento} & \textbf{Norma aplicável} \\
-    \midrule
-    Trabalhos acadêmicos & NBR 14724 \\
-    Referências          & NBR 6023  \\
-    Citações             & NBR 10520 \\
-    Sumário              & NBR 6027  \\
-    Resumo               & NBR 6028  \\
-    \bottomrule
-  \end{tabular}
-  \fonte{Elaborado pelo autor (\the\year).}
-\end{quadro}
-
-%% --- Exemplo de tabela -----------------------------------------------------
+%% --- Tabela (minha, não a de exemplo do template) ---------------------------
 \begin{table}[htb]
-  \caption{Nome da Tabela 1}
-  \label{tab:exemplo}
+  \caption{Condições de recuperação comparadas neste trabalho}
+  \label{tab:condicoes-recuperacao}
   \centering
-  \begin{tabular}{lrr}
+  \begin{tabular}{lccc}
     \toprule
-    \textbf{Categoria} & \textbf{Frequência} & \textbf{\%} \\
+    \textbf{Condição} & \textbf{Índice vetorial} & \textbf{Índice esparso (BM25)} & \textbf{Grafo de conhecimento} \\
     \midrule
-    Categoria A & 120 & 40,0 \\
-    Categoria B &  90 & 30,0 \\
-    Categoria C &  90 & 30,0 \\
-    \midrule
-    \textbf{Total} & \textbf{300} & \textbf{100,0} \\
+    RAG denso          & Sim & Não & Não \\
+    RAG denso-esparso   & Sim & Sim & Não \\
+    GraphRAG incremental & Sim & Não & Sim \\
     \bottomrule
   \end{tabular}
-  \fonte{Dados da pesquisa (\the\year).}
+  \fonte{Elaboração própria (\the\year).}
 \end{table}
 
-%% --- Exemplo de grafico ----------------------------------------------------
-\begin{grafico}[htb]
-  \caption{Nome do Gráfico 1}
-  \label{gra:exemplo}
-  \centering
-  \includegraphics[width=0.55\textwidth]{figuras/exemplo-figura.png}
-  \fonte{Elaborado pelo autor (\the\year).}
-\end{grafico}
+A Tabela~\ref{tab:condicoes-recuperacao} resume as três condições de
+recuperação comparadas na fase confirmatória deste trabalho, antes da
+ampliação exploratória para um número maior de condições.

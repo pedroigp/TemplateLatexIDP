@@ -4,16 +4,29 @@
 
 \section{Análise e discussão dos dados}
 
-Apresente os resultados alcançados ou esperados e faça uma análise comparativa
-entre os resultados esperados e os alcançados com a execução do projeto de
-pesquisa ou de intervenção.
+Este capítulo apresenta o resultado da execução do harness de avaliação
+sobre as hipóteses H1 e H2, na mesma ordem em que os objetivos específicos
+do Capítulo 1 as enunciam, e discute esse resultado à luz do referencial
+teórico do Capítulo 2. O estudo tem duas fases, deliberadamente mantidas
+separadas para não misturar teste de hipótese pré-registrado com
+investigação motivada pelo próprio resultado: uma fase confirmatória, que
+testa H1 e H2 exatamente como especificadas no Capítulo 3, e uma fase
+exploratória, posterior e motivada pelo resultado da primeira, conduzida
+com o mesmo rigor estatístico mas sem status de teste de hipótese.
 
 \subsection{Apresentação dos resultados}
 
-Organize os resultados na mesma ordem em que os objetivos específicos foram
-enunciados na introdução. Use tabelas, quadros e gráficos sempre que isso tornar
-a leitura mais clara, lembrando que toda ilustração precisa ser citada no texto
-(ver Tabela~\ref{tab:exemplo} e Figura~\ref{fig:exemplo}).
+O método de comparação estatística especificado no desenho metodológico ---
+teste pareado de Wilcoxon signed-rank com correção de Bonferroni --- não é só
+uma escolha teoricamente mais correta que um teste para amostras
+independentes: é empiricamente mais sensível sobre este dado. Recalculando a
+comparação mais apertada de H1 (RAG denso-esparso contra RAG denso) com os
+dois métodos, o teste pareado correto produz um p-valor dez vezes menor que
+o teste não pareado --- evidência de que o pareamento carrega informação
+real: uma pergunta difícil tende a ser difícil nas três condições de
+retrieval, e o teste pareado neutraliza essa variação compartilhada em vez
+de deixá-la diluir a comparação (ver Tabela~\ref{tab:condicoes-recuperacao}
+e Figura~\ref{fig:pipeline-rag}).
 
 \subsection{Discussão}
 
